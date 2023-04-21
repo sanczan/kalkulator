@@ -25,16 +25,34 @@ namespace WindowsFormsApplication1
         //button 1
         private void button1_Click(object sender, EventArgs e)
         {
+            button16.Enabled = true;
             if (equation)
             {
                 textBox1.Text = "";
                 textBox2.Text = "";
                 equation = false;
-                textBox1.Text = textBox1.Text + 1;
+                if (textBox1.Text == "0")
+                {
+                    textBox1.Text = "";
+                    textBox1.Text = textBox1.Text + (sender as System.Windows.Forms.Button).Text;
+                }
+                else
+                {
+                    textBox1.Text = textBox1.Text + (sender as System.Windows.Forms.Button).Text;
+                }
+                
             }
             else
             {
-                textBox1.Text = textBox1.Text + 1;
+                if (textBox1.Text == "0")
+                {
+                    textBox1.Text = "";
+                    textBox1.Text = textBox1.Text + (sender as System.Windows.Forms.Button).Text;
+                }
+                else
+                {
+                    textBox1.Text = textBox1.Text + (sender as System.Windows.Forms.Button).Text;
+                }
             }
             
         }
@@ -170,16 +188,23 @@ namespace WindowsFormsApplication1
         //button 0
         private void button0_Click(object sender, EventArgs e)
         {
+            button16.Enabled = true;
             if (equation)
             {
                 textBox1.Text = "";
                 textBox2.Text = "";
                 equation = false;
-                textBox1.Text = textBox1.Text + 0;
+                if (textBox1.Text != "0" && textBox1.Text != "0.")
+                {
+                    textBox1.Text = textBox1.Text + (sender as System.Windows.Forms.Button).Text;
+                }               
             }
             else
             {
-                textBox1.Text = textBox1.Text + 0;
+                if (textBox1.Text != "0" && textBox1.Text != "0.")
+                {
+                    textBox1.Text = textBox1.Text + (sender as System.Windows.Forms.Button).Text;
+                }
             }
         }
 
@@ -202,6 +227,7 @@ namespace WindowsFormsApplication1
         //clear all button
         private void button11_Click(object sender, EventArgs e)
         {
+            button16.Enabled = true;
             textBox1.Text = "";
             textBox2.Text = "";
             foreach (Control control in this.Controls)
@@ -215,7 +241,8 @@ namespace WindowsFormsApplication1
 
         //plus button
         private void button12_Click(object sender, EventArgs e)
-        {          
+        {
+            button16.Enabled = true;
             if (textBox1.Text != "")
             {
                 equation = false;
@@ -229,6 +256,7 @@ namespace WindowsFormsApplication1
         //multiply button
         private void button13_Click(object sender, EventArgs e)
         {
+            button16.Enabled = true;
             if (textBox1.Text != "")
             {
                 equation = false;
@@ -242,6 +270,7 @@ namespace WindowsFormsApplication1
         //minus button
         private void button14_Click(object sender, EventArgs e)
         {
+            button16.Enabled = true;
             if (textBox1.Text != "")
             {
                 equation = false;
@@ -255,6 +284,7 @@ namespace WindowsFormsApplication1
         //divide button
         private void button15_Click(object sender, EventArgs e)
         {
+            button16.Enabled = true;
             if (textBox1.Text != "")
             {
                 equation = false;
@@ -265,9 +295,21 @@ namespace WindowsFormsApplication1
             }       
         }
 
+        //change to the opposite sign
+        private void button18_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text != "0" && textBox1.Text != "")
+            {
+                textBox2.Text = "";
+                double nice = Convert.ToDouble(textBox1.Text) * -1;
+                textBox1.Text = Convert.ToString(nice);
+            }
+        }
+
         //cut off last char
         private void button17_Click(object sender, EventArgs e)
         {
+            button16.Enabled = true;
             string s = textBox1.Text;
 
             if (s.Length > 1)
@@ -283,56 +325,69 @@ namespace WindowsFormsApplication1
         //equal button
         private void button16_Click(object sender, EventArgs e)
         {
-            oparand2 = Convert.ToDouble(textBox1.Text);
-            equation = true;
-            switch (opr)
+            if (textBox1.Text != "")
             {
-                case "+":
-                    result = oparand1 + oparand2;
-                    textBox2.Text = "";
-                    textBox2.Text = textBox1.Text + " + " + oparand1;
-                    textBox1.Text = Convert.ToString(result);
-
-                    break;
-
-                case "-":
-                    result = oparand1 - oparand2;
-                    textBox2.Text = textBox2.Text + " " + textBox1.Text + " =";
-                    textBox1.Text = Convert.ToString(result);
-
-
-                    break;
-
-                case "*":
-                    result = oparand1 * oparand2;
-                    textBox2.Text = textBox2.Text + " " + textBox1.Text + " =";
-                    textBox1.Text = Convert.ToString(result);
-
-                    break;
-
-                case "/":
-                    if (oparand2 == 0)
+                if (!equation)
+                {
+                    oparand2 = Convert.ToDouble(textBox1.Text);
+                    equation = true;
+                    switch (opr)
                     {
-                        textBox1.Text = "ty sie chyba boga nie boisz";
-                        textBox2.Clear();
-                        foreach (Control control in this.Controls)
-                        {
-                            if (control is System.Windows.Forms.Button btn)
+                        case "+":
+                            result = oparand1 + oparand2;
+                            textBox2.Text = textBox2.Text + " " + textBox1.Text + " =";
+                            textBox1.Text = Convert.ToString(result);
+
+                            break;
+
+                        case "-":
+                            result = oparand1 - oparand2;
+                            textBox2.Text = textBox2.Text + " " + textBox1.Text + " =";
+                            textBox1.Text = Convert.ToString(result);
+
+
+                            break;
+
+                        case "*":
+                            result = oparand1 * oparand2;
+                            textBox2.Text = textBox2.Text + " " + textBox1.Text + " =";
+                            textBox1.Text = Convert.ToString(result);
+
+                            break;
+
+                        case "/":
+                            if (oparand2 == 0)
                             {
-                                btn.Enabled = false;
+                                textBox1.Text = "ty sie chyba boga nie boisz";
+                                textBox2.Clear();
+                                foreach (Control control in this.Controls)
+                                {
+                                    if (control is System.Windows.Forms.Button btn)
+                                    {
+                                        btn.Enabled = false;
+                                    }
+                                }
+                                button11.Enabled = true;
+                                break;
                             }
-                        }
-                        button11.Enabled = true;
-                        break;
+                            else
+                            {
+                                result = oparand1 / oparand2;
+                                textBox2.Text = textBox2.Text + " " + textBox1.Text + " =";
+                                textBox1.Text = Convert.ToString(result);
+
+                                break;
+                            } 
+                    }
+                    if (equation == true)
+                    {
+                        button16.Enabled = false;
                     }
                     else
                     {
-                        result = oparand1 / oparand2;
-                        textBox2.Text = textBox2.Text + " " + textBox1.Text + " =";
-                        textBox1.Text = Convert.ToString(result);
-
-                        break;
+                        button16.Enabled = true;
                     }
+                }
             }
         }
     }
