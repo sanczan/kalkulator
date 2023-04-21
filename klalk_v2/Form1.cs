@@ -289,7 +289,8 @@ namespace WindowsFormsApplication1
             {
                 case "+":
                     result = oparand1 + oparand2;
-                    textBox2.Text = textBox2.Text + " " + textBox1.Text + " =";
+                    textBox2.Text = "";
+                    textBox2.Text = textBox1.Text + " + " + oparand1;
                     textBox1.Text = Convert.ToString(result);
 
                     break;
